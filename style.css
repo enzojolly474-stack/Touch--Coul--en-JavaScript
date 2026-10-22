@@ -922,7 +922,6 @@ body.page-paramètre {
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  border: none;
 }
 
 .actions-fin button:hover,
