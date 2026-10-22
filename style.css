@@ -431,11 +431,11 @@ body.page-paramètre {
   height: auto;
   object-fit: contain;
   cursor: pointer;
-  rotate: var(--angle-rotation, 0deg);
-  transition: rotate 0.35s ease-in-out;
+  transform: rotate(var(--angle-rotation, 0deg));
+  transition: transform 0.35s ease-in-out;
 }
 .place-bateau img:hover {
-  transform: scale(1.15);
+  transform: rotate(var(--angle-rotation, 0deg)) scale(1.15);
 }
 
 .bateau-case {
@@ -682,7 +682,6 @@ body.page-paramètre {
   top: 50%;
   left: 50%;
   display: block;
-  rotate: none;
   max-width: none;
   min-width: 0;
   min-height: 0;
