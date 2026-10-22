@@ -9,6 +9,7 @@ const delaisActifs = new Set();
 const TAILLE_GRILLE = 10;
 const DELAI_AVANT_TIR_BOT = 1000;
 const DELAI_APRES_TIR_BOT = 1000;
+const DELAI_APRES_ANIMATION = 800;
 const grilleElement = document.querySelector(".conteigner-jeu .grille");
 if (!(grilleElement instanceof HTMLElement)) {
   throw new Error("La grille principale est introuvable.");
@@ -114,6 +115,13 @@ function programmerDélai(callback, délai) {
     callback();
   }, délai);
   delaisActifs.add(id);
+}
+
+function terminerTourRobot() {
+  miniConteigner.classList.remove("zoom-animation");
+  programmerDélai(() => {
+    if (!partieTerminee) tourJoueur = true;
+  }, DELAI_APRES_ANIMATION);
 }
 
 function annulerDélais() {
@@ -992,8 +1000,7 @@ function tirerRobot() {
           })()
         : choisirTirNormal();
   if (tir === null) {
-    miniConteigner.classList.remove("zoom-animation");
-    tourJoueur = true;
+    terminerTourRobot();
     return;
   }
 
@@ -1073,7 +1080,6 @@ function tirerRobot() {
     return;
   }
   programmerDélai(() => {
-    miniConteigner.classList.remove("zoom-animation");
-    tourJoueur = true;
+    terminerTourRobot();
   }, DELAI_APRES_TIR_BOT);
 }
