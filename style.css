@@ -906,6 +906,9 @@ body.page-paramètre {
 
 .actions-fin button,
 .actions-fin a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid #000;
   border-radius: 8px;
   padding: 10px 16px;
@@ -922,10 +925,12 @@ body.page-paramètre {
 }
 
 .actions-fin button:hover,
-.actions-fin a:hover {
+.actions-fin a:hover,
+.actions-fin button:active,
+.actions-fin a:active {
   background: #5b75f0;
-  transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 6px 14px rgb(0 0 0 / 35%);
+  transform: translateY(-6px) scale(1.06);
+  box-shadow: 0 8px 18px rgb(0 0 0 / 45%);
 }
 
 .actions-fin button:focus-visible,
