@@ -915,11 +915,23 @@ body.page-paramètre {
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .actions-fin button:hover,
 .actions-fin a:hover {
   background: #5b75f0;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 6px 14px rgb(0 0 0 / 35%);
+}
+
+.actions-fin button:focus-visible,
+.actions-fin a:focus-visible {
+  outline: 3px solid #ffd43b;
+  outline-offset: 3px;
 }
 
 #confettis {
