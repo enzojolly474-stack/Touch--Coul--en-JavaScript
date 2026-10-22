@@ -1,0 +1,19 @@
+# System files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp

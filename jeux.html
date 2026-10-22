@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jeu Touché Coulé en ligne</title>
+    <script type="module" src="jeu.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page-jeu">
+    <div id="conteigner-div">
+      <div class="place-bateau">
+        <img
+          class="bateau porte-avion"
+          src="./asset/img/porte-avion.png"
+          data-grille-src="./asset/img/bateaux-grille/porte-avion.png"
+          alt="Porte-avion"
+          draggable="true"
+        />
+        <img
+          class="bateau patrouilleur"
+          src="./asset/img/ship1.png"
+          data-grille-src="./asset/img/bateaux-grille/ship1.png"
+          alt="Patrouilleur"
+          draggable="true"
+        />
+        <img
+          class="bateau destroyer"
+          src="./asset/img/ship2.png"
+          data-grille-src="./asset/img/bateaux-grille/ship2.png"
+          alt="Destroyer"
+          draggable="true"
+        />
+        <img
+          class="bateau croiseur"
+          src="./asset/img/ship3.png"
+          data-grille-src="./asset/img/bateaux-grille/ship3.png"
+          alt="Croiseur"
+          draggable="true"
+        />
+        <img
+          class="bateau sous-marin"
+          src="./asset/img/sous-marin.png"
+          data-grille-src="./asset/img/bateaux-grille/sous-marin.png"
+          alt="Sous-marin"
+          draggable="true"
+        />
+      </div>
+    </div>
+    <div class="conteigner-jeu">
+      <div class="plateau">
+        <div class="coin-vide"></div>
+        <div class="lettre">
+          <div>A</div>
+          <div>B</div>
+          <div>C</div>
+          <div>D</div>
+          <div>E</div>
+          <div>F</div>
+          <div>G</div>
+          <div>H</div>
+          <div>I</div>
+          <div>J</div>
+        </div>
+        <div class="chiffre">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+          <div>8</div>
+          <div>9</div>
+          <div>10</div>
+        </div>
+        <div class="grille"></div>
+      </div>
+    </div>
+    <button id="commence-le-jeu" type="button">OK</button>
+    <button
+      id="tourner-bateau"
+      type="button"
+      aria-label="Tourner le bateau"
+      title="Tourner le bateau (R)"
+      hidden
+    >
+      ↻
+    </button>
+    <div id="mini-conteigner">
+      <div class="plateau">
+        <div class="coin-vide"></div>
+        <div class="lettre">
+          <div>A</div>
+          <div>B</div>
+          <div>C</div>
+          <div>D</div>
+          <div>E</div>
+          <div>F</div>
+          <div>G</div>
+          <div>H</div>
+          <div>I</div>
+          <div>J</div>
+        </div>
+        <div class="chiffre">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+          <div>8</div>
+          <div>9</div>
+          <div>10</div>
+        </div>
+
+        <div class="grille" id="grille-mini-interne"></div>
+      </div>
+    </div>
+    <div id="message-fin" role="alert" aria-live="assertive" hidden>
+      <div id="confettis" aria-hidden="true"></div>
+      <section class="panneau-fin">
+        <h1 id="message-resultat"></h1>
+        <div class="actions-fin">
+          <button id="recommencer" type="button">Recommencer</button>
+          <a href="./index.html">Retourner à l'accueil</a>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
