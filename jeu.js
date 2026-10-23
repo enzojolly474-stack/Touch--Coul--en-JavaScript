@@ -143,6 +143,7 @@ class Bateau {
     this.taille = taille;
     this.place = false;
     this.orientation = 0;
+    this.angleRotation = 0;
 
     this.x = 0;
     this.y = 0;
@@ -176,7 +177,7 @@ const casesOccupees = new Map();
 /** @type {Bateau | null} */
 let bateauChoisi = null;
 let positionPointeur = { x: 0, y: 0 };
-/** @type {{ x: number, y: number, orientation: number } | null} */
+/** @type {{ x: number, y: number, orientation: number, angleRotation: number } | null} */
 let positionAvantSelection = null;
 
 /** @param {Bateau} bateau */
@@ -205,7 +206,7 @@ function afficherBateau(bateau) {
   bateau.image.style.setProperty("--taille-bateau", String(bateau.taille));
   bateau.image.style.setProperty(
     "--angle-rotation",
-    `${bateau.orientation * 90}deg`,
+    `${bateau.angleRotation}deg`,
   );
   dimensionnerBateau(bateau);
 }
@@ -359,6 +360,7 @@ function recommencerPartie() {
     bateau.x = 0;
     bateau.y = 0;
     bateau.orientation = 0;
+    bateau.angleRotation = 0;
     bateau.image.src = sourcesInitiales.get(bateau.image) ?? bateau.image.src;
     bateau.image.style.removeProperty("width");
     bateau.image.style.removeProperty("height");
@@ -388,6 +390,7 @@ function choisirBateau(bateau, event) {
     x: bateau.x,
     y: bateau.y,
     orientation: bateau.orientation,
+    angleRotation: bateau.angleRotation,
   };
   bateau.image.classList.add("bateaudragged");
   positionPointeur = { x: event.clientX, y: event.clientY };
@@ -406,6 +409,11 @@ function annulerSelection() {
     bateauChoisi.x = positionAvantSelection.x;
     bateauChoisi.y = positionAvantSelection.y;
     bateauChoisi.orientation = positionAvantSelection.orientation;
+    const toursComplets = Math.round(
+      (bateauChoisi.angleRotation - positionAvantSelection.angleRotation) / 360,
+    );
+    bateauChoisi.angleRotation =
+      positionAvantSelection.angleRotation + toursComplets * 360;
     afficherBateau(bateauChoisi);
   }
   deselectionnerBateau();
@@ -428,6 +436,7 @@ function tournerBateau() {
   bateau.orientation = nouvelleOrientation;
   bateau.x = nouveauX;
   bateau.y = nouveauY;
+  bateau.angleRotation += 90;
   afficherBateau(bateau);
 }
 
@@ -633,6 +642,7 @@ function revelerBateauCoule(bateauRobot) {
   bateauAffiche.x = x;
   bateauAffiche.y = y;
   bateauAffiche.orientation = bateauRobot.orientation;
+  bateauAffiche.angleRotation = bateauRobot.orientation * 90;
   bateauAffiche.place = true;
   grille.append(bateauAffiche.conteneur);
   afficherBateau(bateauAffiche);
