@@ -473,6 +473,8 @@ function placerBateau(x, y) {
 
 btnCommence.addEventListener("click", () => {
   if (!bateaux.every((bateau) => bateau.place)) return;
+  if (bateauChoisi !== null) annulerSelection();
+  reconstruireCasesOccupees();
   btnCommence.style.display = "none";
   jeuCommence = true;
   miniConteigner.style.display = "block";
