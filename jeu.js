@@ -44,14 +44,14 @@ const boutonRecommencerElement = document.getElementById("recommencer");
 if (!(boutonRecommencerElement instanceof HTMLButtonElement)) {
   throw new Error("Le bouton recommencer est introuvable.");
 }
-const boutonRecommencer =
-  /** @type {HTMLButtonElement} */ (boutonRecommencerElement);
+const boutonRecommencer = /** @type {HTMLButtonElement} */ (
+  boutonRecommencerElement
+);
 const grilleMiniInterneElement = document.getElementById("grille-mini-interne");
 if (!(grilleMiniInterneElement instanceof HTMLElement)) {
   throw new Error("La grille interne de la mini-grille est introuvable.");
 }
-const grilleMiniInterne =
-  /** @type {HTMLElement} */ (grilleMiniInterneElement);
+const grilleMiniInterne = /** @type {HTMLElement} */ (grilleMiniInterneElement);
 const rangement = document.getElementById("conteigner-div");
 const zoneRangement = rangement?.querySelector(".place-bateau") ?? null;
 const boutonRotationElement = document.querySelector("#tourner-bateau");
@@ -61,8 +61,9 @@ if (
 ) {
   throw new Error("Le bouton de rotation n'est pas un bouton.");
 }
-const boutonRotation =
-  /** @type {HTMLButtonElement | null} */ (boutonRotationElement);
+const boutonRotation = /** @type {HTMLButtonElement | null} */ (
+  boutonRotationElement
+);
 const imageElements = document.querySelectorAll(".bateau");
 if (
   Array.from(imageElements).some(
@@ -380,6 +381,7 @@ function afficherBoutonRotation() {
  * @param {MouseEvent} event
  */
 function choisirBateau(bateau, event) {
+  if (jeuCommence || partieTerminee) return;
   if (bateauChoisi !== null) annulerSelection();
   bateauChoisi = bateau;
   positionAvantSelection = {
@@ -410,7 +412,7 @@ function annulerSelection() {
 }
 
 function tournerBateau() {
-  if (bateauChoisi === null) return;
+  if (jeuCommence || partieTerminee || bateauChoisi === null) return;
 
   const bateau = bateauChoisi;
   const nouvelleOrientation = (bateau.orientation + 1) % 4;
@@ -435,7 +437,7 @@ function tournerBateau() {
  * @param {number} y
  */
 function placerBateau(x, y) {
-  if (bateauChoisi === null) return;
+  if (jeuCommence || partieTerminee || bateauChoisi === null) return;
 
   const bateau = bateauChoisi;
   const horizontal = bateau.orientation % 2 === 1;
@@ -559,7 +561,10 @@ for (let index = 0; index < TAILLE_GRILLE * TAILLE_GRILLE; index += 1) {
       }, 700);
     }
 
-    if (bateauxRobot.length > 0 && bateauxRobot.every((bateau) => bateau.revele)) {
+    if (
+      bateauxRobot.length > 0 &&
+      bateauxRobot.every((bateau) => bateau.revele)
+    ) {
       terminerPartie("Victoire !");
       return;
     }
@@ -608,14 +613,18 @@ function revelerBateauCoule(bateauRobot) {
   });
 
   const horizontal = bateauRobot.orientation % 2 === 1;
-  const x = horizontal && bateauRobot.orientation === 3
-    ? bateauRobot.x - bateauRobot.taille + 1
-    : bateauRobot.x;
-  const y = !horizontal && bateauRobot.orientation === 2
-    ? bateauRobot.y - bateauRobot.taille + 1
-    : bateauRobot.y;
+  const x =
+    horizontal && bateauRobot.orientation === 3
+      ? bateauRobot.x - bateauRobot.taille + 1
+      : bateauRobot.x;
+  const y =
+    !horizontal && bateauRobot.orientation === 2
+      ? bateauRobot.y - bateauRobot.taille + 1
+      : bateauRobot.y;
   const bateauAffiche = new Bateau(
-    /** @type {HTMLImageElement} */ (bateaux[bateauRobot.index].image.cloneNode()),
+    /** @type {HTMLImageElement} */ (
+      bateaux[bateauRobot.index].image.cloneNode()
+    ),
     bateauRobot.taille,
     0,
   );
@@ -764,9 +773,14 @@ function placerFlotteRobotDifficile() {
         const x = caseIndex % TAILLE_GRILLE;
         const y = Math.floor(caseIndex / TAILLE_GRILLE);
         return [
-          [x - 1, y - 1], [x, y - 1], [x + 1, y - 1],
-          [x - 1, y],                 [x + 1, y],
-          [x - 1, y + 1], [x, y + 1], [x + 1, y + 1],
+          [x - 1, y - 1],
+          [x, y - 1],
+          [x + 1, y - 1],
+          [x - 1, y],
+          [x + 1, y],
+          [x - 1, y + 1],
+          [x, y + 1],
+          [x + 1, y + 1],
         ]
           .filter(
             ([xVoisin, yVoisin]) =>
@@ -824,9 +838,7 @@ function choisirTirAleatoire() {
       `${Math.floor(index / TAILLE_GRILLE)}-${index % TAILLE_GRILLE}`,
   ).filter((cle) => !tire_robot.has(cle));
   if (casesDisponibles.length === 0) return null;
-  return casesDisponibles[
-    Math.floor(Math.random() * casesDisponibles.length)
-  ];
+  return casesDisponibles[Math.floor(Math.random() * casesDisponibles.length)];
 }
 
 function choisirTirDifficile() {
@@ -865,9 +877,7 @@ function choisirTirDifficile() {
             return `${caseY}-${caseX}`;
           });
           if (
-            cles.some(
-              (cle) => tire_robot.has(cle) && !touchesRobot.has(cle),
-            )
+            cles.some((cle) => tire_robot.has(cle) && !touchesRobot.has(cle))
           ) {
             continue;
           }
@@ -895,10 +905,7 @@ function choisirTirDifficile() {
     .filter(({ probabilite, index }) => {
       const y = Math.floor(index / TAILLE_GRILLE);
       const x = index % TAILLE_GRILLE;
-      return (
-        probabilite > 0 &&
-        !tire_robot.has(`${y}-${x}`)
-      );
+      return probabilite > 0 && !tire_robot.has(`${y}-${x}`);
     });
   if (meilleuresCases.length === 0) return choisirTirAleatoire();
 
