@@ -266,12 +266,14 @@ function chevaucheAutreBateau(bateau, cases) {
   );
 }
 
-/** @param {Bateau} bateau @param {number[]} cases */
-function enregistrerCasesBateau(bateau, cases) {
-  for (const [index, autreBateau] of casesOccupees) {
-    if (autreBateau === bateau) casesOccupees.delete(index);
-  }
-  cases.forEach((index) => casesOccupees.set(index, bateau));
+function reconstruireCasesOccupees() {
+  casesOccupees.clear();
+  bateaux.forEach((bateau) => {
+    if (!bateau.place) return;
+    trouverCases(bateau, bateau.x, bateau.y, bateau.orientation).forEach(
+      (index) => casesOccupees.set(index, bateau),
+    );
+  });
 }
 
 /** @param {"Victoire !" | "Défaite !"} message */
@@ -378,7 +380,7 @@ function afficherBoutonRotation() {
  * @param {MouseEvent} event
  */
 function choisirBateau(bateau, event) {
-  bateauChoisi?.image.classList.remove("bateaudragged");
+  if (bateauChoisi !== null) annulerSelection();
   bateauChoisi = bateau;
   positionAvantSelection = {
     x: bateau.x,
@@ -458,7 +460,7 @@ function placerBateau(x, y) {
   if (imageRecadree) bateau.image.src = imageRecadree;
   grille.append(bateau.conteneur);
   afficherBateau(bateau);
-  enregistrerCasesBateau(bateau, nouvellesCases);
+  reconstruireCasesOccupees();
   deselectionnerBateau();
 
   if (bateaux.every((bateau) => bateau.place)) {
